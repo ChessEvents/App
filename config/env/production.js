@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://admin:*TC>1/<Wq<h@XwB@ds047742.mongolab.com:47742/chess_events',
+	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://admin:password@ds047742.mongolab.com:47742/chess_events',
 	assets: {
 		lib: {
 			css: [
