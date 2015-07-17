@@ -47,6 +47,10 @@ angular.element(document).ready(function() {
 ApplicationConfiguration.registerModule('core');
 'use strict';
 
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('organisers');
+'use strict';
+
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users');
 'use strict';
@@ -256,6 +260,121 @@ angular.module('core').service('Menus', [
 
 		//Adding the topbar menu
 		this.addMenu('topbar');
+	}
+]);
+'use strict';
+
+// Configuring the Articles module
+angular.module('organisers').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Organisers', 'organisers', 'dropdown', '/organisers(/create)?');
+		Menus.addSubMenuItem('topbar', 'organisers', 'List Organisers', 'organisers');
+		Menus.addSubMenuItem('topbar', 'organisers', 'New Organiser', 'organisers/create');
+	}
+]);
+'use strict';
+
+//Setting up route
+angular.module('organisers').config(['$stateProvider',
+	function($stateProvider) {
+		// Organisers state routing
+		$stateProvider.
+		state('listOrganisers', {
+			url: '/organisers',
+			templateUrl: 'modules/organisers/views/list-organisers.client.view.html'
+		}).
+		state('createOrganiser', {
+			url: '/organisers/create',
+			templateUrl: 'modules/organisers/views/create-organiser.client.view.html'
+		}).
+		state('viewOrganiser', {
+			url: '/organisers/:organiserId',
+			templateUrl: 'modules/organisers/views/view-organiser.client.view.html'
+		}).
+		state('editOrganiser', {
+			url: '/organisers/:organiserId/edit',
+			templateUrl: 'modules/organisers/views/edit-organiser.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+// Organisers controller
+angular.module('organisers').controller('OrganisersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Organisers',
+	function($scope, $stateParams, $location, Authentication, Organisers) {
+		$scope.authentication = Authentication;
+
+		// Create new Organiser
+		$scope.create = function() {
+			// Create new Organiser object
+			var organiser = new Organisers ({
+				name: this.name
+			});
+
+			// Redirect after save
+			organiser.$save(function(response) {
+				$location.path('organisers/' + response._id);
+
+				// Clear form fields
+				$scope.name = '';
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Remove existing Organiser
+		$scope.remove = function(organiser) {
+			if ( organiser ) { 
+				organiser.$remove();
+
+				for (var i in $scope.organisers) {
+					if ($scope.organisers [i] === organiser) {
+						$scope.organisers.splice(i, 1);
+					}
+				}
+			} else {
+				$scope.organiser.$remove(function() {
+					$location.path('organisers');
+				});
+			}
+		};
+
+		// Update existing Organiser
+		$scope.update = function() {
+			var organiser = $scope.organiser;
+
+			organiser.$update(function() {
+				$location.path('organisers/' + organiser._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Find a list of Organisers
+		$scope.find = function() {
+			$scope.organisers = Organisers.query();
+		};
+
+		// Find existing Organiser
+		$scope.findOne = function() {
+			$scope.organiser = Organisers.get({ 
+				organiserId: $stateParams.organiserId
+			});
+		};
+	}
+]);
+'use strict';
+
+//Organisers service used to communicate Organisers REST endpoints
+angular.module('organisers').factory('Organisers', ['$resource',
+	function($resource) {
+		return $resource('organisers/:organiserId', { organiserId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
 	}
 ]);
 'use strict';
