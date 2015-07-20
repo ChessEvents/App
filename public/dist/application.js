@@ -104,9 +104,10 @@ angular.module('calendaritems').controller('CalendaritemsController', ['$scope',
 		$scope.create = function() {
 			// Create new Calendaritem object
 			var calendaritem = new Calendaritems ({
-				name: this.name
+				name: this.name,
 				description: this.description,
 				headline: this.headline,
+				organiser: this.organiser,
 				start: this.start,
 				end: this.end
 			});
@@ -119,9 +120,9 @@ angular.module('calendaritems').controller('CalendaritemsController', ['$scope',
 				$scope.name = '';
 				$scope.description = '';
 				$scope.headline = '';
-				$scope.start = null;
+				$scope.start = Date.now;
 				$scope.end = null;
-				
+
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
