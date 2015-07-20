@@ -1,4 +1,4 @@
-[![ChessEvents Logo](http://www.chessevents.co.uk/modules/core/img/brand/logo.png)](http://www.chessevents.co.uk)
+[![ChessEvents Logo](http://www.chessevents.co.uk/modules/core/img/brand/logo-wide.png)](http://www.chessevents.co.uk)
 
 [![Build Status](https://travis-ci.org/ChessEvents/App.svg?branch=master)](https://travis-ci.org/ChessEvents/App)
 [![Code Climate](https://codeclimate.com/github/ChessEvents/App/badges/gpa.svg)](https://codeclimate.com/github/ChessEvents/App)
