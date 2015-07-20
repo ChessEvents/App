@@ -1,6 +1,7 @@
 [![ChessEvents Logo](http://www.chessevents.co.uk/modules/core/img/brand/logo.png)](http://www.chessevents.co.uk)
 
-### CHESS EVENTS LTD
+[![Code Climate](https://codeclimate.com/github/ChessEvents/App/badges/gpa.svg)](https://codeclimate.com/github/ChessEvents/App)
+[![Test Coverage](https://codeclimate.com/github/ChessEvents/App/badges/coverage.svg)](https://codeclimate.com/github/ChessEvents/App/coverage)
 
 ## Download dependancies
 
