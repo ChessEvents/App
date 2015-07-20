@@ -105,6 +105,10 @@ angular.module('calendaritems').controller('CalendaritemsController', ['$scope',
 			// Create new Calendaritem object
 			var calendaritem = new Calendaritems ({
 				name: this.name
+				description: this.description,
+				headline: this.headline,
+				start: this.start,
+				end: this.end
 			});
 
 			// Redirect after save
@@ -113,6 +117,11 @@ angular.module('calendaritems').controller('CalendaritemsController', ['$scope',
 
 				// Clear form fields
 				$scope.name = '';
+				$scope.description = '';
+				$scope.headline = '';
+				$scope.start = null;
+				$scope.end = null;
+				
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

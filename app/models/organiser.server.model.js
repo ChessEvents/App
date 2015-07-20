@@ -16,6 +16,17 @@ var OrganiserSchema = new Schema({
 		required: 'Please fill Organiser name',
 		trim: true
 	},
+	email: {
+		type: String,
+		default: '',
+		required: 'Please fill Organiser email',
+		trim: true
+	},
+	telephone: {
+		type: Number,
+		default: null,
+		trim: true
+	},
 	created: {
 		type: Date,
 		default: Date.now

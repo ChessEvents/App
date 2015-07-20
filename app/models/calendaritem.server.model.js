@@ -16,6 +16,30 @@ var CalendaritemSchema = new Schema({
 		required: 'Please fill Calendaritem name',
 		trim: true
 	},
+	description: {
+		type: String,
+		default: '',
+		required: 'Please fill out some details about this event',
+		trim: true
+	},
+	headline: {
+		type: String,
+		default: '',
+		required: 'Please give this event a headline',
+		trim: true
+	},
+	start: {
+		type: Date,
+		default: Date.now
+	},
+	end: {
+		type: Date,
+		default: null
+	},
+	organiser: {
+		type: Schema.ObjectId,
+		ref: 'Organiser'
+	},
 	created: {
 		type: Date,
 		default: Date.now
