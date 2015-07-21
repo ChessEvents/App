@@ -29,8 +29,8 @@ module.exports = {
 		callbackURL: '/auth/facebook/callback'
 	},
 	twitter: {
-		clientID: process.env.TWITTER_KEY || 'CONSUMER_KEY',
-		clientSecret: process.env.TWITTER_SECRET || 'CONSUMER_SECRET',
+		clientID: process.env.TWITTER_KEY || 'gmq10DJnJMErUnziYsfToAttm',
+		clientSecret: process.env.TWITTER_SECRET || 'EKm4NUljwFoRZa8xkTbMo28ZgVk3JSBbWPer05Y4QgDzIz4YDt',
 		callbackURL: '/auth/twitter/callback'
 	},
 	google: {
@@ -44,8 +44,8 @@ module.exports = {
 		callbackURL: '/auth/linkedin/callback'
 	},
 	github: {
-		clientID: process.env.GITHUB_ID || 'APP_ID',
-		clientSecret: process.env.GITHUB_SECRET || 'APP_SECRET',
+		clientID: process.env.GITHUB_ID || '0db1d13e455cc405c1ef',
+		clientSecret: process.env.GITHUB_SECRET || 'cc8854611fb3847077f34da3b683c76f8fdd740d',
 		callbackURL: '/auth/github/callback'
 	},
 	mailer: {
