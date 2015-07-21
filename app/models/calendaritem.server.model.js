@@ -40,6 +40,20 @@ var CalendaritemSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Organiser'
 	},
+	eventType: {
+		type: [{
+			type: String,
+			enum: ['congress', 'rapidplay', 'other']
+		}],
+		default: ['congress']
+	},
+	ratingType: {
+		type: [{
+			type: String,
+			enum: ['ecf', 'fide', 'yca', 'Other']
+		}],
+		default : ['ecf']
+	},
 	created: {
 		type: Date,
 		default: Date.now

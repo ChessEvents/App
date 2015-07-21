@@ -11,6 +11,8 @@
 				<span data-ng-bind="organiser.user.displayName"></span>
 			</small>
 			<h4 class="list-group-item-heading" data-ng-bind="organiser.name"></h4>
+            <p data-ng-bind="organiser.email"></p>
+            <p data-ng-bind="organiser.telephone"></p>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!organisers.$resolved || organisers.length">

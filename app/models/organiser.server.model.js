@@ -19,7 +19,7 @@ var OrganiserSchema = new Schema({
 	email: {
 		type: String,
 		default: '',
-		required: 'Please fill Organiser email',
+		required: 'Please fill contact email',
 		trim: true
 	},
 	telephone: {

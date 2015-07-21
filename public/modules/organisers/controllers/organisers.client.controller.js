@@ -9,7 +9,9 @@ angular.module('organisers').controller('OrganisersController', ['$scope', '$sta
 		$scope.create = function() {
 			// Create new Organiser object
 			var organiser = new Organisers ({
-				name: this.name
+				name: this.name,
+				email: this.email,
+				telephone: this.telephone
 			});
 
 			// Redirect after save
@@ -18,6 +20,8 @@ angular.module('organisers').controller('OrganisersController', ['$scope', '$sta
 
 				// Clear form fields
 				$scope.name = '';
+				$scope.email = '';
+				$scope.telephone = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
