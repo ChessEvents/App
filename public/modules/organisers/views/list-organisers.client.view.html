@@ -4,15 +4,17 @@
     </div>
     <div class="list-group">
         <a data-ng-repeat="organiser in organisers" data-ng-href="#!/organisers/{{organiser._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="organiser.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="organiser.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="organiser.name"></h4>
-            <p data-ng-bind="organiser.email"></p>
-            <p data-ng-bind="organiser.telephone"></p>
+
+			<h3 class="list-group-item-heading" data-ng-bind="organiser.name"></h4>
+            <strong>Email</strong> <span data-ng-bind="organiser.email"></span><br>
+            <strong>Telephone</strong> <span data-ng-bind="organiser.telephone"></span>
+
+            <small class="list-group-item-text pull-right">
+                Created on
+                <span data-ng-bind="organiser.created | date:'short'"></span>
+                by
+                <span data-ng-bind="organiser.user.displayName"></span>
+            </small>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!organisers.$resolved || organisers.length">

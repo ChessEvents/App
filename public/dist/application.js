@@ -63,9 +63,9 @@ ApplicationConfiguration.registerModule('users');
 angular.module('calendaritems').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Calendaritems', 'calendaritems', 'dropdown', '/calendaritems(/create)?');
-		Menus.addSubMenuItem('topbar', 'calendaritems', 'List Calendaritems', 'calendaritems');
-		Menus.addSubMenuItem('topbar', 'calendaritems', 'New Calendaritem', 'calendaritems/create');
+		Menus.addMenuItem('topbar', 'Events', 'calendaritems', 'dropdown', '/calendaritems(/create)?');
+		Menus.addSubMenuItem('topbar', 'calendaritems', 'List Events', 'calendaritems');
+		Menus.addSubMenuItem('topbar', 'calendaritems', 'New Event', 'calendaritems/create');
 	}
 ]);
 'use strict';
@@ -96,9 +96,13 @@ angular.module('calendaritems').config(['$stateProvider',
 'use strict';
 
 // Calendaritems controller
-angular.module('calendaritems').controller('CalendaritemsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Calendaritems',
-	function($scope, $stateParams, $location, Authentication, Calendaritems) {
+angular.module('calendaritems').controller('CalendaritemsController', 
+	['$scope', '$stateParams', '$location', 'Authentication', 'Calendaritems', 'Organisers',
+	function($scope, $stateParams, $location, Authentication, Calendaritems, Organisers) {
 		$scope.authentication = Authentication;
+
+		// Populates dropdown:
+		$scope.organisers = Organisers.query();
 
 		// Create new Calendaritem
 		$scope.create = function() {
@@ -219,10 +223,14 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Calendaritems',
+	function($scope, Authentication, Calendaritems) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
+
+		// Get a list of calendar items
+		$scope.calendaritems = Calendaritems.query();
+		
 	}
 ]);
 'use strict';
@@ -540,6 +548,17 @@ angular.module('users').config(['$httpProvider',
 		]);
 	}
 ]);
+
+// Configuring the User module
+/*
+angular.module('user').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Users', 'users', 'dropdown', '/users(/create)?');
+		Menus.addSubMenuItem('topbar', 'users', 'List Users', 'users');
+	}
+]);
+*/
 'use strict';
 
 // Setting up route

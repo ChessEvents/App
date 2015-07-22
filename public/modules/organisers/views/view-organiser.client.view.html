@@ -1,8 +1,8 @@
 <section data-ng-controller="OrganisersController" data-ng-init="findOne()">
 	<div class="page-header">
 		<h1 data-ng-bind="organiser.name"></h1>
-		<p data-ng-bind="organiser.email"></p>
-		<p data-ng-bind="organiser.telephone"></p>
+		<strong>Email:</strong> <span data-ng-bind="organiser.email"></span><br>
+		<strong>Telephone:</strong> <span data-ng-bind="organiser.telephone"></span>
 	</div>
 	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == organiser.user._id))">
 		<a class="btn btn-primary" href="/#!/organisers/{{organiser._id}}/edit">

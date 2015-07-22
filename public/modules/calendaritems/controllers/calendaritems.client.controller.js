@@ -1,9 +1,13 @@
 'use strict';
 
 // Calendaritems controller
-angular.module('calendaritems').controller('CalendaritemsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Calendaritems',
-	function($scope, $stateParams, $location, Authentication, Calendaritems) {
+angular.module('calendaritems').controller('CalendaritemsController', 
+	['$scope', '$stateParams', '$location', 'Authentication', 'Calendaritems', 'Organisers',
+	function($scope, $stateParams, $location, Authentication, Calendaritems, Organisers) {
 		$scope.authentication = Authentication;
+
+		// Populates dropdown:
+		$scope.organisers = Organisers.query();
 
 		// Create new Calendaritem
 		$scope.create = function() {

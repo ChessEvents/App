@@ -28,3 +28,14 @@ angular.module('users').config(['$httpProvider',
 		]);
 	}
 ]);
+
+// Configuring the User module
+/*
+angular.module('user').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Users', 'users', 'dropdown', '/users(/create)?');
+		Menus.addSubMenuItem('topbar', 'users', 'List Users', 'users');
+	}
+]);
+*/
