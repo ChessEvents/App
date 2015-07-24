@@ -25,6 +25,7 @@
     "cron": "^1.0.9",
     "express": "~4.10.1",
     "express-session": "~1.9.1",
+    "fast-csv": "^0.6.0",
     "forever": "~0.11.0",
     "glob": "~4.0.5",
     "grunt-cli": "~0.1.13",
