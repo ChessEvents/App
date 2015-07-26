@@ -37,6 +37,19 @@ var rating = {
 			}
 };
 
+var reference = {
+	refType: {
+			type: [{ 
+		type: String,
+			enum: ['fide', 'ecf', 'yca', 'uscf']
+		}],
+		default: ['ecf']
+	},
+	refID: {
+		type: String
+	}
+};
+
 var PlayerSchema = new Schema({
 	forename: {
 		type: String,
@@ -59,6 +72,7 @@ var PlayerSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	ref: [reference],
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'

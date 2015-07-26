@@ -170,6 +170,7 @@ angular.module('calendaritems').controller('CalendaritemsController',
 			$scope.calendaritem = Calendaritems.get({ 
 				calendaritemId: $stateParams.calendaritemId
 			});
+			console.log('item: ' + $scope.calendaritem);
 		};
 	}
 ]);

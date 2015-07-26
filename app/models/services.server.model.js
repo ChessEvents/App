@@ -9,36 +9,82 @@ var Player = mongoose.model('Player');
 var processed = false;
 var error = false;
 
-var updateMe = function () {
+function tryParseInt(str,defaultValue) {
+     var retValue = defaultValue;
+     if(str !== null) {
+         if(str.length > 0) {
+             if (!isNaN(str)) {
+                 retValue = parseInt(str);
+             }
+         }
+     }
+     return retValue;
+}
 
-    /*
-        Player.findByIdAndUpdate(
-            '55b166bbeffec298166bec79',
-            {$push: {'ratings': {
-                                        ratingType: 'ecf',
-                                        gameRatingType: 'standard',
-                                        rating: 224,
-                                        ratingDate: new Date(2014, 6, 1),
-                                        ratingRef: null
-                                    }
+var FIDE_RATING_DOWNLOAD = new CronJob({
+    cronTime: '0 * * * * *',
+    onTick: function () {
+        var dateTime = new Date();
+        console.log('Checking to see if any new FIDE ratings are ready to process ' + dateTime);
+
+        if (!processed) {
+            CSV.fromPath('app/data/fide-july-2015.csv')
+                .on('data', function (data) {
+
+                    if (!error) {
+
+                        var record = {
+                            ref: data[0],
+                            fed: data[2],
+                            rating: data[4]
+                        };
+
+                        if (record.ref !== 'ID Number') {
+
+
+                            var newFideRating = {
+                                ratingType: 'fide',
+                                gameRatingType: 'standard',
+                                rating: parseInt(record.rating),
+                                ratingDate: new Date(2015, 1, 1),
+                                ratingRef: record.ref
+                            };
+
+                            if(record.ref !== '') {
+
+                                   Player.update({ 'ref.refID' : record.ref }, 
+                                        { '$push' : { 'ratings': newFideRating }}, 
+                                        function(err, result) {
+                                            if(result){
+                                                console.log(result);
+                                            }                                  
+                                        }
+                                    );
+                            }
+                            processed = true;
+
                         }
-                },
-            {safe: true, upsert: true, new : true},
-            function(err, model) {
-                console.log(err);
-            }
-        );
-    */
+                    }
 
-    console.log(Player.find({ 'ratings.rating': '200', 'ratings.gameRatingType': 'rapidplay' }).count());
 
-    //.exec(function (err, player) {
-    //console.log('found!' + player);
-    //});
+                }).on('end', function () {
+                    processed = true;
+                    console.log('done');
+                });
 
-};
+        } else {
+            console.log('Nothing to process!');
+        }
 
-//updateMe();
+    },
+    onComplete: function () {
+        var dateTime = new Date();
+        console.log('This job was completed at ' + dateTime);
+    },
+    start: false,
+    timeZone: null
+});
+
 
 var ECF_GRADE_DOWNLOAD = new CronJob({
     cronTime: '0 * * * * *',
@@ -85,7 +131,7 @@ var ECF_GRADE_DOWNLOAD = new CronJob({
                             var standardRating = {
                                 ratingType: 'ecf',
                                 gameRatingType: 'standard',
-                                rating: TryParseInt(record.grade, 0),
+                                rating: tryParseInt(record.grade, 0),
                                 ratingDate: new Date(2015, 1, 1),
                                 ratingRef: record.ref
                             };
@@ -93,16 +139,36 @@ var ECF_GRADE_DOWNLOAD = new CronJob({
                             var rapidRating = {
                                 ratingType: 'ecf',
                                 gameRatingType: 'rapidplay',
-                                rating: TryParseInt(record.rapid, 0),
+                                rating: tryParseInt(record.rapid, 0),
                                 ratingDate: new Date(2015, 1, 1),
                                 ratingRef: record.ref
                             };
+
+                            var references = [];
+
+                            var ecfRef = {
+                                refType: 'ecf',
+                                refID: record.ref
+                            };
+                            references.push(ecfRef);
+
+
+                            if(record.fideRef !== '') {
+                                console.log(record.name + ' ' + typeof record.fideRef + ' ' + record.fideRef);
+                                
+                                var fideRef = {
+                                    refType: 'fide',
+                                    refID: record.fideRef
+                                };
+                                references.push(fideRef);
+                            }
 
 
                             var player = new Player({
                                 forename: forename,
                                 surname: surname,
                                 sex: record.sex,
+                                ref: references,
                                 ratings: [standardRating, rapidRating]
                             });
 
@@ -138,18 +204,6 @@ var ECF_GRADE_DOWNLOAD = new CronJob({
 });
 
 
-function TryParseInt(str,defaultValue) {
-     var retValue = defaultValue;
-     if(str !== null) {
-         if(str.length > 0) {
-             if (!isNaN(str)) {
-                 retValue = parseInt(str);
-             }
-         }
-     }
-     return retValue;
-}
+//ECF_GRADE_DOWNLOAD.start();
 
-ECF_GRADE_DOWNLOAD.start();
-
-
+//FIDE_RATING_DOWNLOAD.start();
