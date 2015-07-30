@@ -612,9 +612,15 @@ angular.module('players').controller('PlayersController', ['$scope', '$statePara
 			});
 		};
 
+		$scope.limit = 50;
+		$scope.searchString = 'webb';
+		$scope.loaded = false;
+
 		// Find a list of Players
 		$scope.find = function() {
-			$scope.players = Players.query();
+			$scope.loaded = false;
+			$scope.players = Players.query({limit: $scope.limit, searchString: $scope.searchString });
+			$scope.loaded = true;
 		};
 
 		// Find existing Player
