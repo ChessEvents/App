@@ -1,0 +1,46 @@
+<section data-ng-controller="PlayersController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Players</h1>
+    </div>
+
+    <!-- Form Search Filter -->
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="limit">Results</label>
+        <input type="text" class="form-control" id="limit" placeholder="50" data-ng-model="limit">
+      </div>
+      <div class="form-group">
+        <label for="searchString">Surname</label>
+        <input type="text" class="form-control" id="searchString" placeholder="Hawkings" data-ng-model="searchString">
+      </div>
+      <button type="submit" class="btn btn-default" ng-click="find()">Search</button>
+
+      <div class="form-group">Results: <span data-ng-bind="players.length"></span></div>
+    </form>
+
+    <hr>
+
+    <!-- Results -->
+    <div class="list-group" ng-show="loaded">
+        <a data-ng-repeat="player in players" data-ng-href="#!/players/{{player._id}}" class="list-group-item">
+			<h4 class="list-group-item-heading" data-ng-bind="player.surname + ', ' + player.forename"></h4>
+            
+            <ul ng-repeat="rating in player.ratings" class="list-inline">
+                <li><span data-ng-bind="rating.rating"></span> <span data-ng-bind="rating.ratingType[0]"></span> <span data-ng-bind="rating.gameRatingType[0]"></span></li>
+            </ul>
+        </a>
+    </div>
+
+    <!-- Loading -->
+    <div class="text-centre" ng-hide="loaded">
+        <img src="modules/players/img/loading.gif" />
+    </div>
+
+    <!-- Error --> 
+    <div class="alert alert-warning text-center" data-ng-hide="!players.$resolved || players.length">
+    	No Players yet, why don't you <a href="/#!/players/create">create one</a>?
+    </div>
+
+</section>
+
+

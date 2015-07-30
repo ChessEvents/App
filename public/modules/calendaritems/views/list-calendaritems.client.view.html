@@ -11,6 +11,7 @@
 				<span data-ng-bind="calendaritem.user.displayName"></span>
 			</small>
 			<h4 class="list-group-item-heading" data-ng-bind="calendaritem.name"></h4>
+            <p data-ng-bind="calendaritem.description"></p>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!calendaritems.$resolved || calendaritems.length">

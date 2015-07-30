@@ -55,6 +55,10 @@ ApplicationConfiguration.registerModule('core');
 ApplicationConfiguration.registerModule('organisers');
 'use strict';
 
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('players');
+'use strict';
+
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users');
 'use strict';
@@ -170,6 +174,7 @@ angular.module('calendaritems').controller('CalendaritemsController',
 			$scope.calendaritem = Calendaritems.get({ 
 				calendaritemId: $stateParams.calendaritemId
 			});
+			console.log('item: ' + $scope.calendaritem);
 		};
 	}
 ]);
@@ -511,6 +516,121 @@ angular.module('organisers').controller('OrganisersController', ['$scope', '$sta
 angular.module('organisers').factory('Organisers', ['$resource',
 	function($resource) {
 		return $resource('organisers/:organiserId', { organiserId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
+'use strict';
+
+// Configuring the Articles module
+angular.module('players').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Players', 'players', 'dropdown', '/players(/create)?');
+		Menus.addSubMenuItem('topbar', 'players', 'List Players', 'players');
+		Menus.addSubMenuItem('topbar', 'players', 'New Player', 'players/create');
+	}
+]);
+'use strict';
+
+//Setting up route
+angular.module('players').config(['$stateProvider',
+	function($stateProvider) {
+		// Players state routing
+		$stateProvider.
+		state('listPlayers', {
+			url: '/players',
+			templateUrl: 'modules/players/views/list-players.client.view.html'
+		}).
+		state('createPlayer', {
+			url: '/players/create',
+			templateUrl: 'modules/players/views/create-player.client.view.html'
+		}).
+		state('viewPlayer', {
+			url: '/players/:playerId',
+			templateUrl: 'modules/players/views/view-player.client.view.html'
+		}).
+		state('editPlayer', {
+			url: '/players/:playerId/edit',
+			templateUrl: 'modules/players/views/edit-player.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+// Players controller
+angular.module('players').controller('PlayersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Players',
+	function($scope, $stateParams, $location, Authentication, Players) {
+		$scope.authentication = Authentication;
+
+		// Create new Player
+		$scope.create = function() {
+			// Create new Player object
+			var player = new Players ({
+				name: this.name
+			});
+
+			// Redirect after save
+			player.$save(function(response) {
+				$location.path('players/' + response._id);
+
+				// Clear form fields
+				$scope.name = '';
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Remove existing Player
+		$scope.remove = function(player) {
+			if ( player ) { 
+				player.$remove();
+
+				for (var i in $scope.players) {
+					if ($scope.players [i] === player) {
+						$scope.players.splice(i, 1);
+					}
+				}
+			} else {
+				$scope.player.$remove(function() {
+					$location.path('players');
+				});
+			}
+		};
+
+		// Update existing Player
+		$scope.update = function() {
+			var player = $scope.player;
+
+			player.$update(function() {
+				$location.path('players/' + player._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Find a list of Players
+		$scope.find = function() {
+			$scope.players = Players.query();
+		};
+
+		// Find existing Player
+		$scope.findOne = function() {
+			$scope.player = Players.get({ 
+				playerId: $stateParams.playerId
+			});
+		};
+	}
+]);
+'use strict';
+
+//Players service used to communicate Players REST endpoints
+angular.module('players').factory('Players', ['$resource',
+	function($resource) {
+		return $resource('players/:playerId', { playerId: '@_id'
 		}, {
 			update: {
 				method: 'PUT'

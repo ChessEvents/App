@@ -32,6 +32,11 @@ module.exports = function(db) {
 		require(path.resolve(modelPath));
 	});
 
+	// Globbing service files
+	config.getGlobbedFiles('./app/services/**/*.js').forEach(function(modelPath) {
+		require(path.resolve(modelPath));
+	});
+
 	// Setting application local variables
 	app.locals.title = config.app.title;
 	app.locals.description = config.app.description;
