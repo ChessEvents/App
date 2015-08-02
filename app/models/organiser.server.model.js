@@ -20,7 +20,8 @@ var OrganiserSchema = new Schema({
 		type: String,
 		default: '',
 		required: 'Please fill contact email',
-		trim: true
+		trim: true,
+		match: [/.+\@.+\..+/, 'Please fill a valid email address']
 	},
 	telephone: {
 		type: Number,

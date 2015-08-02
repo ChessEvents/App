@@ -17,6 +17,17 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			}).error(function(response) {
 				$scope.error = response.message;
 			});
+
+			$http.post('/email', {
+				name: $scope.credentials.firstName + ' ' + $scope.credentials.lastName,
+				email: $scope.credentials.email,
+				message: 'Thank you for registering with Chess Events!'
+			}).success(function (response) {
+				// notify the user.
+				console.log('Success - sent email');
+			}).error(function (response) {
+				console.log('Ooops - no sent emai!');
+			});
 		};
 
 		$scope.signin = function() {

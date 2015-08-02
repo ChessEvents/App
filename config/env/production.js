@@ -24,13 +24,13 @@ module.exports = {
 		js: 'public/dist/application.min.js'
 	},
 	facebook: {
-		clientID: process.env.FACEBOOK_ID || '1087072384656101',
-		clientSecret: process.env.FACEBOOK_SECRET || 'd10fbded7047b5d63accef450657829a',
+		clientID: process.env.FACEBOOK_ID || 'APP_ID',
+		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
 		callbackURL: '/auth/facebook/callback'
 	},
 	twitter: {
-		clientID: process.env.TWITTER_KEY || 'gmq10DJnJMErUnziYsfToAttm',
-		clientSecret: process.env.TWITTER_SECRET || 'EKm4NUljwFoRZa8xkTbMo28ZgVk3JSBbWPer05Y4QgDzIz4YDt',
+		clientID: process.env.TWITTER_KEY || 'APP_ID',
+		clientSecret: process.env.TWITTER_SECRET || 'APP_SECRET',
 		callbackURL: '/auth/twitter/callback'
 	},
 	google: {
@@ -44,8 +44,8 @@ module.exports = {
 		callbackURL: '/auth/linkedin/callback'
 	},
 	github: {
-		clientID: process.env.GITHUB_ID || '0db1d13e455cc405c1ef',
-		clientSecret: process.env.GITHUB_SECRET || 'cc8854611fb3847077f34da3b683c76f8fdd740d',
+		clientID: process.env.GITHUB_ID || 'APP_ID',
+		clientSecret: process.env.GITHUB_SECRET || 'APP_SECRET',
 		callbackURL: '/auth/github/callback'
 	},
 	mailer: {

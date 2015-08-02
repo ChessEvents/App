@@ -1,8 +1,16 @@
 <section data-ng-controller="PlayersController" data-ng-init="findOne()">
 	<div class="page-header">
-		<h1 data-ng-bind="player.name"></h1>
+		<h1 data-ng-bind="player.surname + ', ' + player.forename"></h1>
+		<p>Rating / Grading details</p>
+            <ul ng-repeat="ratingType in player.ratings" class="list-inline">
+                <li><span data-ng-bind="ratingType.ref.refType"></span>: <a ng-href="{{ ratingType.ref.refUrl }}" target="_blank"><span data-ng-bind="ratingType.ref.refID"></span></a>
+                    <ul ng-repeat="rating in ratingType.ratings">
+                        <li><span data-ng-bind="rating.rating"></span> - <span data-ng-bind="rating.gameRatingType"></span></li>
+                    </ul>
+                </li>
+            </ul>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == player.user._id))">
+	<div class="pull-right" data-ng-show="authentication.user">
 		<a class="btn btn-primary" href="/#!/players/{{player._id}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>
 		</a>
@@ -10,12 +18,4 @@
 			<i class="glyphicon glyphicon-trash"></i>
 		</a>
 	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="player.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="player.user.displayName"></span>
-		</em>
-	</small>
 </section>

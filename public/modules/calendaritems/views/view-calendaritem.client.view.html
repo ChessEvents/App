@@ -1,6 +1,12 @@
 <section data-ng-controller="CalendaritemsController" data-ng-init="findOne()">
 	<div class="page-header">
 		<h1 data-ng-bind="calendaritem.name"></h1>
+		<p data-ng-bind="calendaritem.headline"></p>
+
+		<div class="well well-sm">
+			<h3>Description</h3>
+			<p data-ng-bind="calendaritem.description"></p>
+		</div>
 	</div>
 	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == calendaritem.user._id))">
 		<a class="btn btn-primary" href="/#!/calendaritems/{{calendaritem._id}}/edit">

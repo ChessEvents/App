@@ -77,14 +77,28 @@ exports.list = function(req, res) {
 
 	var regex = new RegExp(req.query.searchString, 'i');
 
-	Player.find({ 'ratings' : { '$elemMatch' : { 'ratingType' : 'ecf', 'gameRatingType' : 'standard'} }, 'surname': regex }).sort({'ratings.rating' : -1}).limit(req.query.limit).populate('user', 'displayName').exec(function(err, players) {		
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(players);
-		}
+	Player.find({ 'surname': regex, 
+				'ratings' : 
+					{ '$elemMatch' : 
+							{ 'ref.refType' : 'ecf',
+											 'ratings' : { 
+											 	'$elemMatch' : { 
+											 		'gameRatingType' : 'standard' 
+											 	} 
+							 				} 
+										} 
+					}})
+			.sort({ 'ratings.rating' : -1 })
+			.limit(req.query.limit)
+			.populate('user', 'displayName').exec(function(err, players) {	
+
+					if (err) {
+						return res.status(400).send({
+							message: errorHandler.getErrorMessage(err)
+						});
+					} else {
+						res.jsonp(players);
+					}
 	});
 };
 

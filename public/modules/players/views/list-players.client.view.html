@@ -25,8 +25,12 @@
         <a data-ng-repeat="player in players" data-ng-href="#!/players/{{player._id}}" class="list-group-item">
 			<h4 class="list-group-item-heading" data-ng-bind="player.surname + ', ' + player.forename"></h4>
             
-            <ul ng-repeat="rating in player.ratings" class="list-inline">
-                <li><span data-ng-bind="rating.rating"></span> <span data-ng-bind="rating.ratingType[0]"></span> <span data-ng-bind="rating.gameRatingType[0]"></span></li>
+            <ul ng-repeat="ratingType in player.ratings" class="list-inline">
+                <li><span data-ng-bind="ratingType.ref.refType"></span> 
+                    <ul ng-repeat="rating in ratingType.ratings">
+                        <li><span data-ng-bind="rating.rating"></span> - <span data-ng-bind="rating.gameRatingType"></span></li>
+                    </ul>
+                </li>
             </ul>
         </a>
     </div>

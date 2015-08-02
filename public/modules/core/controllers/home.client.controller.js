@@ -7,7 +7,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		$scope.authentication = Authentication;
 
 		// Get a list of calendar items
-		$scope.calendaritems = Calendaritems.query();
+		$scope.calendaritems = Calendaritems.query({ limit: 10 });
 		
 	}
 ]);

@@ -6,49 +6,53 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-var rating = {
-			ratingType: {
-				type: [{
-					type: String,
-					enum: ['fide', 'ecf', 'yca', 'uscf']
-				}],
-				default: ['ecf']
-			},
-			gameRatingType: {
-				type: [{
-					type: String,
-					enum: ['standard', 'rapidplay', 'blitz', 'bullet']
-				}],
-				default: ['standard']
-			},
-			rating: {
-				type: Number
-			},
-			ratingDate: {
-				type: Date
-			},
-			ratingRef: {
-				type: String,
-				trim: true
-			},
-			created: {
-				type: Date,
-				default: Date.now
-			}
-};
 
 var reference = {
 	refType: {
 			type: [{ 
-		type: String,
-			enum: ['fide', 'ecf', 'yca', 'uscf']
+				type: String,
+				lowercase: true,
+				enum: ['fide', 'ecf', 'yca', 'uscf']
 		}],
 		default: ['ecf']
 	},
 	refID: {
 		type: String
+	},
+	refUrl: {
+		type: String
 	}
 };
+
+var ratings = {
+			ref: reference,
+			ratings: [{
+				gameRatingType: {
+					type: [{
+						type: String,
+						lowercase: true,
+						enum: ['standard', 'rapidplay', 'blitz', 'bullet']
+					}],
+					default: ['standard']
+				},
+				rating: {
+					type: Number
+				},
+				ratingDate: {
+					type: Date
+				},
+				ratingRef: {
+					type: String,
+					trim: true
+				},
+				created: {
+					type: Date,
+					default: Date.now
+				}
+			}]
+		};
+
+
 
 var PlayerSchema = new Schema({
 	forename: {
@@ -61,7 +65,7 @@ var PlayerSchema = new Schema({
 		default: '',
 		trim: true
 	},
-	ratings: [rating],
+	ratings: [ratings],
 	sex: {
 		type: [{
 			type: String,
@@ -72,7 +76,6 @@ var PlayerSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	ref: [reference],
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'

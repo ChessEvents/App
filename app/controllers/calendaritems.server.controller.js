@@ -15,6 +15,8 @@ exports.create = function(req, res) {
 	var calendaritem = new Calendaritem(req.body);
 	calendaritem.user = req.user;
 
+	console.log('The organiser object :' + req.organiser);
+
 	calendaritem.save(function(err) {
 		if (err) {
 			return res.status(400).send({

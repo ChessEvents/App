@@ -8,15 +8,18 @@ angular.module('calendaritems').controller('CalendaritemsController',
 
 		// Populates dropdown:
 		$scope.organisers = Organisers.query();
+		$scope.selectedOrganiser = null;
 
 		// Create new Calendaritem
 		$scope.create = function() {
 			// Create new Calendaritem object
+
+
 			var calendaritem = new Calendaritems ({
 				name: this.name,
 				description: this.description,
 				headline: this.headline,
-				organiser: this.organiser,
+				organiser: $scope.selectedOrganiser,
 				start: this.start,
 				end: this.end
 			});
@@ -29,6 +32,7 @@ angular.module('calendaritems').controller('CalendaritemsController',
 				$scope.name = '';
 				$scope.description = '';
 				$scope.headline = '';
+				$scope.selectedOrganiser = null;
 				$scope.start = Date.now;
 				$scope.end = null;
 
@@ -75,7 +79,6 @@ angular.module('calendaritems').controller('CalendaritemsController',
 			$scope.calendaritem = Calendaritems.get({ 
 				calendaritemId: $stateParams.calendaritemId
 			});
-			console.log('item: ' + $scope.calendaritem);
 		};
 	}
 ]);

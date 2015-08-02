@@ -15,6 +15,7 @@ var ratingUpdateScheduleSchema = new Schema({
 	body: {
 		type: [{
 			type: String,
+			lowercase: true,
 			enum: ['ecf', 'fide', 'yca', 'other']
 		}]
 	},
@@ -27,6 +28,7 @@ var ratingUpdateScheduleSchema = new Schema({
 	month: {
 		type: [{
 			type: String,
+			lowercase: true,
 			enum: ['january', 'february', 'march','april','may','june','july','august', 'september', 'october', 'november', 'december']
 		}]
 	},
@@ -37,12 +39,16 @@ var ratingUpdateScheduleSchema = new Schema({
 		type: Date,
 		default: null
 	},
+	waitingForProcess: {
+		type: Boolean,
+		default: false
+	},
 	isProcessing: {
-		type: String,
+		type: Boolean,
 		default: false
 	},
 	allowReprocess: {
-		type: String,
+		type: Boolean,
 		default: false
 	},
 	created: {
