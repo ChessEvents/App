@@ -5,8 +5,7 @@ module.exports = {
 	assets: {
 		lib: {
 			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/lib/theme/bootstrap.min.css'
+				'public/theme/css/bootstrap.css'
 			],
 			js: [
 				'public/lib/angular/angular.min.js',
