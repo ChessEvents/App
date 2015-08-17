@@ -107,15 +107,18 @@ angular.module('calendaritems').controller('CalendaritemsController',
 
 		// Populates dropdown:
 		$scope.organisers = Organisers.query();
+		$scope.selectedOrganiser = null;
 
 		// Create new Calendaritem
 		$scope.create = function() {
 			// Create new Calendaritem object
+
+
 			var calendaritem = new Calendaritems ({
 				name: this.name,
 				description: this.description,
 				headline: this.headline,
-				organiser: this.organiser,
+				organiser: $scope.selectedOrganiser,
 				start: this.start,
 				end: this.end
 			});
@@ -128,6 +131,7 @@ angular.module('calendaritems').controller('CalendaritemsController',
 				$scope.name = '';
 				$scope.description = '';
 				$scope.headline = '';
+				$scope.selectedOrganiser = null;
 				$scope.start = Date.now;
 				$scope.end = null;
 
@@ -174,7 +178,6 @@ angular.module('calendaritems').controller('CalendaritemsController',
 			$scope.calendaritem = Calendaritems.get({ 
 				calendaritemId: $stateParams.calendaritemId
 			});
-			console.log('item: ' + $scope.calendaritem);
 		};
 	}
 ]);
@@ -228,13 +231,17 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Calendaritems',
-	function($scope, Authentication, Calendaritems) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Calendaritems', 'Players',
+	function($scope, Authentication, Calendaritems, Players) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
 		// Get a list of calendar items
-		$scope.calendaritems = Calendaritems.query();
+		$scope.calendaritems = Calendaritems.query({ limit: 10 });
+
+		$scope.players = Players.count();
+
+		console.log($scope.players);
 		
 	}
 ]);
@@ -748,6 +755,17 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$location.path('/');
 			}).error(function(response) {
 				$scope.error = response.message;
+			});
+
+			$http.post('/email', {
+				name: $scope.credentials.firstName + ' ' + $scope.credentials.lastName,
+				email: $scope.credentials.email,
+				message: 'Thank you for registering with Chess Events!'
+			}).success(function (response) {
+				// notify the user.
+				console.log('Success - sent email');
+			}).error(function (response) {
+				console.log('Ooops - no sent emai!');
 			});
 		};
 

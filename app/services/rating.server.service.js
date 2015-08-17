@@ -6,11 +6,14 @@
 var CronJob = require('cron').CronJob;
 var CSV = require('fast-csv');
 var fs = require('fs');
+// var Promise = require('promise');
 var mongoose = require('mongoose');
 var Player = mongoose.model('Player');
 var RatingUpdateSchedule = mongoose.model('RatingUpdateSchedule');
 var colors = require('colors');
-var processed = true;
+
+
+var processed = false;
 var error = false;
 
 
@@ -26,6 +29,8 @@ function tryParseInt(str,defaultValue) {
      }
      return retValue;
 }
+
+
 
 
 var GET_FILES_FOR_PROCESSING = function() {
@@ -51,7 +56,7 @@ var GET_FILES_FOR_PROCESSING = function() {
         if(fileName !== '') {
 
             // Using directory file name to check database for file:
-            RatingUpdateSchedule.findOne({ 'fileName' : fileName}, function (err, file) {
+            RatingUpdateSchedule.findOne({ 'fileName' : fileName }, function (err, file) {
 
                 if(!file) {
 
@@ -83,6 +88,7 @@ var GET_FILES_FOR_PROCESSING = function() {
                                             return console.error(err);
                                         }
                                 });
+
                         } else {
                             console.error('File invalid, key check does not match! ' + fileName.red);
                         }
@@ -97,11 +103,11 @@ var GET_FILES_FOR_PROCESSING = function() {
         }
 
     };
-
-
 };
 
-GET_FILES_FOR_PROCESSING();
+// GET_FILES_FOR_PROCESSING();
+
+
 
 var FIDE_RATING_DOWNLOAD = function () {
 
@@ -112,7 +118,7 @@ var FIDE_RATING_DOWNLOAD = function () {
 
         if (!processed) {
 
-            CSV.fromPath('app/data/fide-july-2015.csv').on('data', function (data) {
+            CSV.fromPath('app/data/555-888-fide-standard-july-2015.csv').on('data', function (data) {
 
                     if (!error) {
 
@@ -146,7 +152,6 @@ var FIDE_RATING_DOWNLOAD = function () {
                                 
                                 fidePlayers.push(newFideRating);
 
-                                console.log('rating added. ' + counter);
                                 counter++;                            
                             }
 
@@ -156,7 +161,7 @@ var FIDE_RATING_DOWNLOAD = function () {
 
                 }).on('end', function () {
                     processed = true;
-                    console.log('done');
+                    console.log('done, total players in memory: ' + counter);
                     return fidePlayers;
                 });
 
@@ -299,7 +304,7 @@ var UPDATE_PLAYER_RATINGS = function (body, ratingDate, fileName) {
 
 
 var ECF_GRADE_DOWNLOAD = new CronJob({
-    cronTime: '0 * * * * *',
+    cronTime: '15 14 1 * *',
     onTick: function () {
         var dateTime = new Date();
         console.log('Checking to see if any new grades are ready to process ' + dateTime);
@@ -317,11 +322,11 @@ var ECF_GRADE_DOWNLOAD = new CronJob({
         var dateTime = new Date();
         console.log('This job was completed at ' + dateTime);
     },
-    start: false,
+    start: true,
     timeZone: null
 });
 
 
-ECF_GRADE_DOWNLOAD.start();
+//ECF_GRADE_DOWNLOAD.start();
 
 //FIDE_RATING_DOWNLOAD();
