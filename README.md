@@ -28,3 +28,7 @@ $ grunt
 
 Your development application should run on the 3000 port so in your browser just go to [http://localhost:3000](http://localhost:3000)
                             
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ChessEvents/app/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
